@@ -14,6 +14,10 @@ def random_entry(the_list):
     index = random.randint(0, len(the_list) - 1)
     return the_list[index]
 
+def generate_sql_insert_statement(table_name, field_values):
+    values_string = ','.join((f"'{v}'" for v in field_values))
+    return f'INSERT INTO {table_name} VALUES({values_string});'
+
 def random_male_pet_name():
     return random_entry(g_male_names)
 
@@ -33,16 +37,14 @@ def random_pet():
         pet['size'] = random_entry(['small', 'medium', 'large'])
     return pet
 
-def generate_sql_insert_statement(table_name, field_values):
-    values_string = ','.join((f"'{v}'" for v in field_values))
-    return f'INSERT INTO {table_name} VALUES({values_string});'
-
 def sql_insert_pet(pet):
     statement = generate_sql_insert_statement('PETS', [pet["name"], pet["sex"], pet["species"], pet["size"]])
     print(statement)
 
 def main():
-    for i in range(10):
+    print('CREATE TABLE PETS (NAME VARCHAR(32), SEX CHAR, SPECIES VARCHAR(10), SIZE VARCHAR(10));')
+
+    for i in range(20):
         p = random_pet()
         sql_insert_pet(p)
 
