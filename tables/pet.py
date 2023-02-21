@@ -3,19 +3,24 @@ import utility, names
 from utility import random_element
 
 table_name = 'PET'
-table_fields = [
+table_fields_array = [
         ['NAME',    'VARCHAR(30)'],
         ['SEX',     'CHAR(1)'],
         ['SPECIES', 'VARCHAR(10)'],
         ['SIZE',    'VARCHAR(10)'],
     ]
+table_fields = [{"name": f[0], "type": f[1]} for f in table_fields_array]
 
 def sql_create_table():
     return utility.sql_create_table(table_name, table_fields)
 
 def sql_insert_random():
     pet = random_pet()
-    return utility.sql_insert('PETS', [pet["name"], pet["sex"], pet["species"], pet["size"]])
+    return utility.sql_insert_by_field_names(
+            'PETS',
+            (f['name'] for f in table_fields),
+            pet
+        )
 
 def random_male_pet_name():
     return random_element(names.male_names)
@@ -25,13 +30,13 @@ def random_female_pet_name():
 
 def random_pet():
     pet = {}
-    pet['sex'] = 'FM'[random.randint(0, 1)]
-    if pet['sex'] == 'F':
-        pet['name'] = random_female_pet_name()
+    pet['SEX'] = 'FM'[random.randint(0, 1)]
+    if pet['SEX'] == 'F':
+        pet['NAME'] = random_female_pet_name()
     else:
-        pet['name'] = random_male_pet_name()
-    pet['species'] = random_element(['dog', 'cat'])
-    pet['size'] = 'small'
-    if pet['species'] == 'dog':
-        pet['size'] = random_element(['small', 'medium', 'large'])
+        pet['NAME'] = random_male_pet_name()
+    pet['SPECIES'] = random_element(['dog', 'cat'])
+    pet['SIZE'] = 'small'
+    if pet['SPECIES'] == 'dog':
+        pet['SIZE'] = random_element(['small', 'medium', 'large'])
     return pet
