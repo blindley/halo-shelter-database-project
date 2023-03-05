@@ -17,7 +17,7 @@ def sql_create_table():
 def sql_insert_random():
     pet = random_pet()
     return utility.sql_insert_by_field_names(
-            'PETS',
+            table_name,
             (f['name'] for f in table_fields),
             pet
         )
