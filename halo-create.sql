@@ -97,7 +97,7 @@ CREATE TABLE transaction (
 );
 
 CREATE TABLE application (
-  adoption_id INT PRIMARY KEY,
+  application_id INT PRIMARY KEY,
   person_id INT,
   pet_id INT,
   application_status CHAR(2),
